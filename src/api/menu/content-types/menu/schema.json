@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "menus",
+  "info": {
+    "singularName": "menu",
+    "pluralName": "menus",
+    "displayName": "menu"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "page": {
+      "type": "component",
+      "component": "page.page",
+      "repeatable": true
+    },
+    "content": {
+      "type": "component",
+      "component": "page.page",
+      "repeatable": false
+    }
+  }
+}

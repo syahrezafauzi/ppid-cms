@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_page_pages",
+  "info": {
+    "displayName": "page"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "required": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "content": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "pdf": {
+      "type": "component",
+      "component": "page.pdf",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}
