@@ -2,26 +2,58 @@
  * menu controller
  */
 
-import { factories } from '@strapi/strapi'
+import { factories } from "@strapi/strapi";
 
-export default factories.createCoreController('api::menu.menu', ({})=>({
-    async find(ctx){
-        
-      const result = await super.find(ctx);
-      const entry = await strapi.db.query('api::menu.menu').findMany({
-        select: ['title'],
-        // where: { url: 'profil' },
-        populate: ['title', 'page.url', 'page.pdf', 'page.pdf.file.src']
-      });
-      const result2 = entry.map((entity)=> {
-        const page = entity.page.map((e)=> ({
-            title: e.title,
-            url: e.url,
-            pdf: e.pdf?.map((e)=> ({title: e.title, file: e.file?.map((e)=> ({name: e.name, url: e.src.url}))}))
-        }))
-        return {title: entity.title, page: page}
-      })
-      console.log(result2)
-      return result2;
-    }
+export default factories.createCoreController("api::menu.menu", ({}) => ({
+  async view(ctx) {
+    await this.validateQuery(ctx);
+    const { url } = ctx.request.query;
+    const query = await strapi.documents("api::menu.menu").findMany({
+      select: ["title"],
+      where: {
+        page: {
+          url: url,
+        },
+      },
+      populate: {
+        content: true,
+        page: {
+          filters: {
+            url: url,
+          },
+          fields: ["title", "content"],
+          populate: {
+            pdf: {
+              populate: {
+                file: {
+                  populate: {
+                    src: {},
+                  },
+                },
+              },
+            },
+            image: {},
+          },
+        },
+      },
+      start: 0,
+      limit: 10,
+    });
+
+    const value = await this.sanitizeOutput(query, ctx);
+    var result = Array.isArray(value) && value?.map((e) => ({
+      ...e,
+      page: e.page?.map((e) => ({
+        ...e,
+        // Remaping pdf data
+        pdf: e.pdf?.map((e) => ({
+          title: e.title,
+          file: e.file?.map((e) => ({ name: e.name, src: e.src.url })),
+        })),
+        // Remaping image data
+        image: e.image?.map((e)=> e.url)
+      })),
+    })) || value;
+    return result;
+  },
 }));
