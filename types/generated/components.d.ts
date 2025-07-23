@@ -42,12 +42,55 @@ export interface PagePdf extends Struct.ComponentSchema {
   };
 }
 
+export interface WidgetLink extends Struct.ComponentSchema {
+  collectionName: 'components_widget_links';
+  info: {
+    displayName: 'Link';
+  };
+  attributes: {
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    link: Schema.Attribute.String;
+    text: Schema.Attribute.String;
+  };
+}
+
+export interface WidgetMedia extends Struct.ComponentSchema {
+  collectionName: 'components_widget_media';
+  info: {
+    displayName: 'Media';
+  };
+  attributes: {
+    image: Schema.Attribute.Component<'widget.link', false>;
+    slider: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    title: Schema.Attribute.String;
+    video: Schema.Attribute.Media<'videos'>;
+  };
+}
+
+export interface WidgetSlider extends Struct.ComponentSchema {
+  collectionName: 'components_widget_sliders';
+  info: {
+    displayName: 'Slider';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    subTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'page.file': PageFile;
       'page.page': PagePage;
       'page.pdf': PagePdf;
+      'widget.link': WidgetLink;
+      'widget.media': WidgetMedia;
+      'widget.slider': WidgetSlider;
     }
   }
 }

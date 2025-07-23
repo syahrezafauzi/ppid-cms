@@ -373,30 +373,34 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
-  collectionName: 'articles';
+export interface ApiHomeHome extends Struct.SingleTypeSchema {
+  collectionName: 'homes';
   info: {
-    displayName: 'article';
-    pluralName: 'articles';
-    singularName: 'article';
+    displayName: 'Home';
+    pluralName: 'homes';
+    singularName: 'home';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    cover: Schema.Attribute.Media<'images', true>;
+    content: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    header: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::article.article'
-    > &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::home.home'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    subtitle: Schema.Attribute.String;
-    title: Schema.Attribute.String;
+    slider: Schema.Attribute.Component<'widget.slider', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -406,7 +410,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
 export interface ApiMenuMenu extends Struct.CollectionTypeSchema {
   collectionName: 'menus';
   info: {
-    displayName: 'menu';
+    displayName: 'Menu';
     pluralName: 'menus';
     singularName: 'menu';
   };
@@ -433,7 +437,7 @@ export interface ApiMenuMenu extends Struct.CollectionTypeSchema {
 export interface ApiWebsiteWebsite extends Struct.SingleTypeSchema {
   collectionName: 'websites';
   info: {
-    displayName: 'website';
+    displayName: 'Website';
     pluralName: 'websites';
     singularName: 'website';
   };
@@ -441,22 +445,28 @@ export interface ApiWebsiteWebsite extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    address: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    icon: Schema.Attribute.Media<'images'>;
+    description: Schema.Attribute.String;
+    email: Schema.Attribute.Email;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::website.website'
     > &
       Schema.Attribute.Private;
-    logo_header: Schema.Attribute.Media<'images', true>;
+    logo: Schema.Attribute.Media<'images'>;
+    media: Schema.Attribute.Component<'widget.media', true>;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    sites: Schema.Attribute.Component<'widget.link', true>;
+    socialMedia: Schema.Attribute.Component<'widget.link', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    whatsapp: Schema.Attribute.Component<'widget.link', false>;
   };
 }
 
@@ -969,7 +979,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::article.article': ApiArticleArticle;
+      'api::home.home': ApiHomeHome;
       'api::menu.menu': ApiMenuMenu;
       'api::website.website': ApiWebsiteWebsite;
       'plugin::content-releases.release': PluginContentReleasesRelease;

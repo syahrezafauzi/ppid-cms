@@ -4,7 +4,7 @@
   "info": {
     "singularName": "website",
     "pluralName": "websites",
-    "displayName": "website"
+    "displayName": "Website"
   },
   "options": {
     "draftAndPublish": true
@@ -14,21 +14,41 @@
     "name": {
       "type": "string"
     },
-    "icon": {
+    "description": {
+      "type": "string"
+    },
+    "logo": {
       "type": "media",
       "multiple": false,
-      "required": false,
       "allowedTypes": [
         "images"
       ]
     },
-    "logo_header": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+    "address": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "socialMedia": {
+      "type": "component",
+      "component": "widget.link",
+      "repeatable": true
+    },
+    "sites": {
+      "type": "component",
+      "component": "widget.link",
+      "repeatable": true
+    },
+    "media": {
+      "type": "component",
+      "component": "widget.media",
+      "repeatable": true
+    },
+    "whatsapp": {
+      "type": "component",
+      "component": "widget.link",
+      "repeatable": false
     }
   }
 }
