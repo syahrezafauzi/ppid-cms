@@ -4,19 +4,39 @@
 
 import { factories } from "@strapi/strapi";
 
-export default factories.createCoreController("api::menu.menu", ({}) => ({
+export default factories.createCoreController("api::menu.menu", ({ }) => ({
   async view(ctx) {
     await this.validateQuery(ctx);
     const { url } = ctx.request.query;
     const query = await strapi.documents("api::menu.menu").findMany({
       select: ["title"],
       where: {
-        page: {
-          url: url,
-        },
+        $or: [
+          {
+            content: {
+              url: url
+            }
+          },
+          {
+            page: {
+              url: url,
+            },
+          }]
       },
       populate: {
-        content: true,
+        content: {
+          populate: {
+            pdf: {
+              populate: {
+                file: {
+                  populate: {
+                    src: {},
+                  },
+                },
+              },
+            },
+          }
+        },
         page: {
           filters: {
             url: url,
@@ -43,6 +63,13 @@ export default factories.createCoreController("api::menu.menu", ({}) => ({
     const value = await this.sanitizeOutput(query, ctx);
     var result = Array.isArray(value) && value?.map((e) => ({
       ...e,
+      content: !e.content ? null : {
+        ...e.content,
+        pdf: e.pdf?.map((e) => ({
+          title: e.title,
+          file: e.file?.map((e) => ({ name: e.name, src: e.src.url })),
+        }))
+      },
       page: e.page?.map((e) => ({
         ...e,
         // Remaping pdf data
@@ -51,7 +78,7 @@ export default factories.createCoreController("api::menu.menu", ({}) => ({
           file: e.file?.map((e) => ({ name: e.name, src: e.src.url })),
         })),
         // Remaping image data
-        image: e.image?.map((e)=> e.url)
+        image: e.image?.map((e) => e.url)
       })),
     })) || value;
     return result;
