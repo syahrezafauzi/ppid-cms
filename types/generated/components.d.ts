@@ -51,9 +51,9 @@ export interface WidgetLink extends Struct.ComponentSchema {
   };
   attributes: {
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    image: Schema.Attribute.Media<'images'>;
     subtitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
+    toImage: Schema.Attribute.Media<'images'>;
     url: Schema.Attribute.String;
   };
 }

@@ -4,7 +4,7 @@
 
 import { factories } from "@strapi/strapi";
 
-export default factories.createCoreController("api::menu.menu", ({ }) => ({
+export default factories.createCoreController("api::menu.menu", ({}) => ({
   async view(ctx) {
     await this.validateQuery(ctx);
     const { url } = ctx.request.query;
@@ -14,14 +14,15 @@ export default factories.createCoreController("api::menu.menu", ({ }) => ({
         $or: [
           {
             content: {
-              url: url
-            }
+              url: url,
+            },
           },
           {
             page: {
               url: url,
             },
-          }]
+          },
+        ],
       },
       populate: {
         content: {
@@ -35,7 +36,12 @@ export default factories.createCoreController("api::menu.menu", ({ }) => ({
                 },
               },
             },
-          }
+            link: {
+              populate: {
+                toImage: {},
+              },
+            },
+          },
         },
         page: {
           filters: {
@@ -53,6 +59,11 @@ export default factories.createCoreController("api::menu.menu", ({ }) => ({
               },
             },
             image: {},
+            link: {
+              populate: {
+                toImage: {},
+              },
+            },
           },
         },
       },
@@ -61,26 +72,24 @@ export default factories.createCoreController("api::menu.menu", ({ }) => ({
     });
 
     const value = await this.sanitizeOutput(query, ctx);
-    var result = Array.isArray(value) && value?.map((e) => ({
-      ...e,
-      content: !e.content ? null : {
-        ...e.content,
-        pdf: e.pdf?.map((e) => ({
-          title: e.title,
-          file: e.file?.map((e) => ({ name: e.name, src: e.src.url })),
-        }))
-      },
-      page: e.page?.map((e) => ({
-        ...e,
-        // Remaping pdf data
-        pdf: e.pdf?.map((e) => ({
-          title: e.title,
-          file: e.file?.map((e) => ({ name: e.name, src: e.src.url })),
-        })),
-        // Remaping image data
-        image: e.image?.map((e) => e.url)
+    const mapPage = (page) => ({
+      ...page,
+      pdf: page.pdf?.map((page) => ({
+        title: page.title,
+        file: page.file?.map((e) => ({ name: e.name, src: e.src.url })),
       })),
-    })) || value;
+      image: page.image?.map((e) => e.url),
+      link: page.link?.map((e) => ({ ...e, toImage: e.toImage?.url })),
+    });
+
+    var result =
+      (Array.isArray(value) &&
+        value?.map((e) => ({
+          ...e,
+          content: !e.content ? null : mapPage(e.content),
+          page: e.page?.map((e) => mapPage(e)),
+        }))) ||
+      value;
     return result;
   },
 }));

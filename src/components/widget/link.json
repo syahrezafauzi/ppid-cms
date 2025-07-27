@@ -25,7 +25,7 @@
     "url": {
       "type": "string"
     },
-    "image": {
+    "toImage": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
