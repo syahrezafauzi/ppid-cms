@@ -1,14 +1,15 @@
 {
   "collectionName": "components_widget_links",
   "info": {
-    "displayName": "Link"
+    "displayName": "Link",
+    "icon": "link"
   },
   "options": {},
   "attributes": {
-    "text": {
+    "title": {
       "type": "string"
     },
-    "link": {
+    "subtitle": {
       "type": "string"
     },
     "icon": {
@@ -19,6 +20,16 @@
         "files",
         "videos",
         "audios"
+      ]
+    },
+    "url": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
       ]
     }
   },

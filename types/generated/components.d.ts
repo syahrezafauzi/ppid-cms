@@ -25,6 +25,7 @@ export interface PagePage extends Struct.ComponentSchema {
         }
       >;
     image: Schema.Attribute.Media<'images', true>;
+    link: Schema.Attribute.Component<'widget.link', true>;
     pdf: Schema.Attribute.Component<'page.pdf', true>;
     title: Schema.Attribute.String;
     url: Schema.Attribute.String;
@@ -46,11 +47,14 @@ export interface WidgetLink extends Struct.ComponentSchema {
   collectionName: 'components_widget_links';
   info: {
     displayName: 'Link';
+    icon: 'link';
   };
   attributes: {
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    link: Schema.Attribute.String;
-    text: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
+    subtitle: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    url: Schema.Attribute.String;
   };
 }
 

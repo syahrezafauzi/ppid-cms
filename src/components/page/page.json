@@ -30,6 +30,11 @@
       "type": "component",
       "component": "page.pdf",
       "repeatable": true
+    },
+    "link": {
+      "type": "component",
+      "component": "widget.link",
+      "repeatable": true
     }
   },
   "config": {}
