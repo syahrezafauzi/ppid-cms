@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "menu2s",
+  "info": {
+    "singularName": "menu2",
+    "pluralName": "menu2s",
+    "displayName": "Menu2"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "page": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
+    },
+    "pages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page.page"
+    }
+  }
+}
