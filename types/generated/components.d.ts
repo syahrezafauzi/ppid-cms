@@ -55,7 +55,6 @@ export interface WidgetLink extends Struct.ComponentSchema {
     page: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
     subtitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
-    toImage: Schema.Attribute.Media<'images'>;
     url: Schema.Attribute.String;
   };
 }

@@ -467,15 +467,6 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
-    order: Schema.Attribute.Integer &
-      Schema.Attribute.SetMinMax<
-        {
-          max: 255;
-          min: 1;
-        },
-        number
-      >;
-    pages: Schema.Attribute.Relation<'oneToMany', 'api::page.page'>;
     pdf: Schema.Attribute.Component<'page.pdf', true>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
