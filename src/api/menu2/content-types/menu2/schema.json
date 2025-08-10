@@ -14,15 +14,15 @@
     "title": {
       "type": "string"
     },
-    "page": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::page.page"
+    "order": {
+      "type": "integer",
+      "min": 1,
+      "max": 255
     },
-    "pages": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::page.page"
+    "items": {
+      "type": "component",
+      "component": "page.page",
+      "repeatable": true
     }
   }
 }

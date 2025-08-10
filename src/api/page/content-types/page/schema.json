@@ -42,6 +42,16 @@
       "type": "component",
       "component": "widget.link",
       "repeatable": true
+    },
+    "order": {
+      "type": "integer",
+      "min": 1,
+      "max": 255
+    },
+    "pages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page.page"
     }
   }
 }

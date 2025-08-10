@@ -14,27 +14,31 @@ export default factories.createCoreController("api::menu2.menu2", () => ({
       filters: {
         $or: [
           {
-            page: {
-              url: url
-            },
+            // page: {
+            //   url: url,
+            // },
           },
           {
-            pages: {
-              url: url,
-            },
+            // childs: {
+            //   page: {
+            //     url,
+            //   },
+            // },
           },
         ],
       },
       populate: {
-        page: {
-          populate: { ...pageComponent },
-        },
-        pages: {
-          populate: { ...pageComponent },
-          filters: {
-            url: url,
-          },
-        },
+        // page: {
+        //   populate: { ...pageComponent },
+        // },
+        // childs:{
+        //   page:{
+        //     populate: { ...pageComponent },
+        //     filters: {
+        //       url: url,
+        //     },
+        //   }
+        // }
       },
       start: 0,
       limit: 10,

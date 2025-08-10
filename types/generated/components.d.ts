@@ -26,6 +26,7 @@ export interface PagePage extends Struct.ComponentSchema {
       >;
     image: Schema.Attribute.Media<'images', true>;
     link: Schema.Attribute.Component<'widget.link', true>;
+    page: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
     pdf: Schema.Attribute.Component<'page.pdf', true>;
     title: Schema.Attribute.String;
     url: Schema.Attribute.String;

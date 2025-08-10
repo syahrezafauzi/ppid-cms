@@ -35,6 +35,11 @@
       "type": "component",
       "component": "widget.link",
       "repeatable": true
+    },
+    "page": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
     }
   },
   "config": {}
