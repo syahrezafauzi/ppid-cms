@@ -9,9 +9,9 @@ export default factories.createCoreController("api::page.page", () => ({
     await this.validateQuery(ctx);
     const { url }: { url?: string } = ctx.request.query;
     const query = await strapi.documents("api::page.page").findMany({
-      select: ["title"],
-      filters: {url},
-      populate: {...pageComponent},
+      select: ["title", "content"],
+      filters: { url },
+      populate: { ...pageComponent },
       start: 0,
       limit: 10,
     });
@@ -32,28 +32,27 @@ export default factories.createCoreController("api::page.page", () => ({
       Array.isArray(value) &&
       value?.map((e) => ({
         ...e,
-        ...mapPage(e)
+        ...mapPage(e),
       }));
     return result;
   },
 }));
 
 const pageComponent = {
-    pdf: {
-      populate: {
-        file: {
-          populate: {
-            src: {},
-          },
+  pdf: {
+    populate: {
+      file: {
+        populate: {
+          src: {},
         },
       },
     },
-    image: {},
-    link: {
-      populate: {
-        page: {
-          
-        }
-      },
+  },
+  image: {},
+  link: {
+    populate: {
+      page: {},
     },
-  };
+  },
+  // content: {},
+};
