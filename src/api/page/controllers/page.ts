@@ -25,7 +25,7 @@ export default factories.createCoreController("api::page.page", () => ({
           file: page.file?.map((e) => ({ name: e.name, src: e.src.url })),
         })),
         image: page.image?.map((e) => e.url),
-        link: page.link?.map((e) => ({ ...e, page: e?.page?.url })),
+        link: page.link?.map((e) => ({ ...e, page: e?.page?.url, icon: e?.icon?.url })),
       };
 
     var result =
@@ -52,6 +52,9 @@ const pageComponent = {
   link: {
     populate: {
       page: {},
+      
+      icon: {
+      },
     },
   },
   // content: {},
