@@ -14,6 +14,16 @@
     "title": {
       "type": "string"
     },
+    "excludePanel": {
+      "type": "customField",
+      "customField": "plugin::multi-select.multi-select",
+      "default": "[\"Left\", \"Right\"]",
+      "options": [
+        "Left",
+        "Right"
+      ],
+      "required": false
+    },
     "url": {
       "type": "uid",
       "targetField": "title",
@@ -42,6 +52,12 @@
       "type": "component",
       "component": "widget.link",
       "repeatable": true
+    },
+    "other": {
+      "type": "dynamiczone",
+      "components": [
+        "page.dip"
+      ]
     }
   }
 }

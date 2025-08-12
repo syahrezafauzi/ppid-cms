@@ -9,9 +9,9 @@ export default factories.createCoreController("api::page.page", () => ({
     await this.validateQuery(ctx);
     const { url }: { url?: string } = ctx.request.query;
     const query = await strapi.documents("api::page.page").findMany({
-      select: ["title", "content"],
+      select: ["title", "content", "excludePanel"],
       filters: { url },
-      populate: { ...pageComponent },
+      populate: { ...populateComponent },
       start: 0,
       limit: 10,
     });
@@ -25,7 +25,25 @@ export default factories.createCoreController("api::page.page", () => ({
           file: page.file?.map((e) => ({ name: e.name, src: e.src.url })),
         })),
         image: page.image?.map((e) => e.url),
-        link: page.link?.map((e) => ({ ...e, page: e?.page?.url, icon: e?.icon?.url })),
+        link: page.link?.map((e) => ({
+          ...e,
+          page: e?.page?.url,
+          icon: e?.icon?.url,
+        })),
+        other: page.other.reduce((acc, e) => {
+          let current = acc[e.__component];
+          if (!current) current = [];
+          current.push({
+            ...e,
+            media: {
+              page: e?.media?.page?.url,
+              file: e?.media?.file?.url,
+            },
+          });
+
+          acc[e.__component] = current;
+          return acc;
+        }, {}),
       };
 
     var result =
@@ -38,7 +56,7 @@ export default factories.createCoreController("api::page.page", () => ({
   },
 }));
 
-const pageComponent = {
+const populateComponent = {
   pdf: {
     populate: {
       file: {
@@ -52,8 +70,21 @@ const pageComponent = {
   link: {
     populate: {
       page: {},
-      
-      icon: {
+
+      icon: {},
+    },
+  },
+  other: {
+    on: {
+      "page.dip": {
+        populate: {
+          media: {
+            populate: {
+              file: {},
+              page: {},
+            },
+          },
+        },
       },
     },
   },

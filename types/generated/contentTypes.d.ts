@@ -462,11 +462,18 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    excludePanel: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        ['Left', 'Right']
+      > &
+      Schema.Attribute.DefaultTo<'["Left", "Right"]'>;
     image: Schema.Attribute.Media<'images', true>;
     link: Schema.Attribute.Component<'widget.link', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
+    other: Schema.Attribute.DynamicZone<['page.dip']>;
     pdf: Schema.Attribute.Component<'page.pdf', true>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;

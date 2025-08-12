@@ -1,5 +1,27 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface PageDip extends Struct.ComponentSchema {
+  collectionName: 'components_page_dips';
+  info: {
+    displayName: 'DIP';
+  };
+  attributes: {
+    bentuk_tersedia: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        ['Softcopy', 'Hardcopy']
+      > &
+      Schema.Attribute.DefaultTo<'[]'>;
+    jangka_simpan: Schema.Attribute.String;
+    judul_informasi: Schema.Attribute.String;
+    media: Schema.Attribute.Component<'widget.link', false>;
+    pejabat_menguasai: Schema.Attribute.String;
+    pjp_info: Schema.Attribute.String;
+    ringkasan: Schema.Attribute.String;
+    waktu_pembuatan: Schema.Attribute.String;
+  };
+}
+
 export interface PageFile extends Struct.ComponentSchema {
   collectionName: 'components_page_files';
   info: {
@@ -51,6 +73,7 @@ export interface WidgetLink extends Struct.ComponentSchema {
     icon: 'link';
   };
   attributes: {
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     page: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
     subtitle: Schema.Attribute.String;
@@ -90,6 +113,7 @@ export interface WidgetSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'page.dip': PageDip;
       'page.file': PageFile;
       'page.page': PagePage;
       'page.pdf': PagePdf;

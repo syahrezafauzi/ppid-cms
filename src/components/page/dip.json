@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_page_dips",
+  "info": {
+    "displayName": "DIP"
+  },
+  "options": {},
+  "attributes": {
+    "judul_informasi": {
+      "type": "string"
+    },
+    "ringkasan": {
+      "type": "string"
+    },
+    "pejabat_menguasai": {
+      "type": "string"
+    },
+    "pjp_info": {
+      "type": "string"
+    },
+    "waktu_pembuatan": {
+      "type": "string"
+    },
+    "bentuk_tersedia": {
+      "type": "customField",
+      "customField": "plugin::multi-select.multi-select",
+      "default": "[]",
+      "options": [
+        "Softcopy",
+        "Hardcopy"
+      ]
+    },
+    "jangka_simpan": {
+      "type": "string"
+    },
+    "media": {
+      "type": "component",
+      "component": "widget.link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}
